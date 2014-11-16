@@ -10,7 +10,8 @@ representation of that data rather than exchange specific ones.
 
 ### Quick Guide
 
-        >>> from exchanges import bitfinex
+        >>> from exchanges.bitfinex import Bitfinex
+        >>> bitfinex = Bitfinex()
         >>> bitfinex.get_current_price()
         Decimal('371.17')
 
