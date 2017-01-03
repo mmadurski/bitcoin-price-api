@@ -1,6 +1,11 @@
 from decimal import Decimal
+import locale
 
 from exchanges.helpers import get_datetime, get_response
+
+
+API_LOCALE = 'en_US.UTF-8'
+locale.setlocale(locale.LC_ALL, API_LOCALE)
 
 
 class CoinDesk(object):
@@ -12,13 +17,13 @@ class CoinDesk(object):
         )
         data = get_response(url)
         price = data['bpi'][currency]['rate']
-        return Decimal(price)
+        return cls._todec(price)
 
     @classmethod
     def get_past_price(cls, date):
         data = cls._get_historical_data(date)
         price = data['bpi'][date]
-        return Decimal(str(price))
+        return cls._todec(str(price))
 
     @classmethod
     def get_historical_data_as_dict(cls, start='2013-09-01', end=None):
@@ -52,3 +57,7 @@ class CoinDesk(object):
             )
         )
         return get_response(url)
+
+    @classmethod
+    def _todec(cls, value):
+        return Decimal(format(locale.atof(value), '.4f'))
