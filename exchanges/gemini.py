@@ -27,7 +27,7 @@ class Gemini(Exchange):
         days = [start_date + timedelta(x) for x in range(delta.days + 1)]
         data = map(cls._get_historical_data, days)
         prices = {datetime.strftime(k, '%Y-%m-%d'): Decimal(str(v['price']))
-                  for (k, v) in zip(days, data)}
+                  for (k,v) in zip(days, data)}
         return prices
 
     @classmethod
@@ -38,13 +38,13 @@ class Gemini(Exchange):
         days = [start_date + timedelta(x) for x in range(delta.days + 1)]
         data = map(lambda day: cls._get_historical_data(day), days)
         ret = [
-            {datetime.strftime(k, '%Y-%m-%d'): Decimal(str(v['price']))}
-            for (k, v) in zip(days, data)
+            {'date': datetime.strftime(k, '%Y-%m-%d'),
+             'price': Decimal(str(v['price']))}
+            for (k,v) in zip(days, data)
         ]
         return ret
 
     @classmethod
     def _get_historical_data(cls, day):
         url = 'https://api.gemini.com/v1/trades/btcusd?since=%s&limit_trades=1'
-        print(day)
         return get_response(url % day.strftime('%s'))[0]
