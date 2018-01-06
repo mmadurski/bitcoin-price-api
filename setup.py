@@ -1,11 +1,7 @@
 # Copyright (C) 2015 Bitquant Research Laboratories (Asia) Limited
 # Released under the Simplified BSD License
 
-from setuptools import (
-    setup,
-    find_packages,
-)
-
+from setuptools import setup
 setup(
     name='bitcoin-price-api',
     version = '0.0.4',
