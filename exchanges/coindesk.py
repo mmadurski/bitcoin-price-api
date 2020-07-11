@@ -35,11 +35,12 @@ class CoinDesk(object):
             end = get_datetime()
         data = cls._get_historical_data(start, end)
         dates = data['bpi']
-        ret = [
-            {'date': k, 'price': Decimal(str(v))} for (k,v) in dates.iteritems()
-        ]
-        ret.sort()
-        return ret
+        response = []
+        for date, price in ret.items():
+            price = round(float(price), 2)
+            response.append({date: price})
+
+        return response
 
     @classmethod
     def _get_historical_data(cls, start, end=None):
